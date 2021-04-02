@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const div = html`<div style="display:flex">`;
+
+        const charts = new Map();
+        for (let a of attribs) {
+            const chart = BrushableBarChart()
+                .x("value")
+                .y("key")
+                .width(width / attribs.length)
+                .height(500)
+                .onBrush(selection => {
+                    const keys = selection.map(d => d.key);
+                    cs.dims.get(a).filter(keys.length === 0 ? null : d => keys.includes(d));
+                    update();
+                });
+            charts.set(a, chart);
+        }
+
+        function update() {
+            d3.select(div)
+                .selectAll(".charts")
+                .data(attribs)
+                .join("div")
+                .attr("class", "charts")
+                .style("width", width / attribs.length)
+                .each(function (a) {
+                    const data =
+                        a === "TravelDate"
+                            ? cs.groups.get(a).top(30)
+                            : cs.groups.get(a).all();
+                    d3.select(this)
+                        .datum(data)
+                        .call(charts.get(a));
+                });
+        }
+
+        update();
+
+        return div
+    </script>
+
+
+</body>
+
+</html>
