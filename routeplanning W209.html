@@ -160,11 +160,11 @@
                     </ul>
                   </li>
                   <li><a href="#">Visualization</a>
-                      <ul class="nav-dropdown">
-                            <li><a href="Supervisor View.html">Visualization</a></li>
-                      </ul>
-                    </li>
-                    <!-- <li><a href="#">地區選擇</a>
+                    <ul class="nav-dropdown">
+                      <li><a href="Supervisor View.html">Visualization</a></li>
+                    </ul>
+                  </li>
+                  <!-- <li><a href="#">地區選擇</a>
                       <ul class="nav-dropdown">
                         <li><a href="regionselection.html">地區選擇</a></li>
                       </ul>
@@ -252,7 +252,7 @@
       <!-- sider -->
       <div class="col-md-3">
         <div class="sidebar">
-          <div class="sidebar-title" style="margin-right: 20px;font-weight: 900">My Schedule</div>
+          <div style="font-size: large">My Schedule</div>
           <ul id="ulist" class="accordion-element accordion-2">
             <li>
               <a class="toggle" style="background:#FFC72C">Start</a>
@@ -322,53 +322,53 @@
                 }
               ];
 
-              // for (var j = 0; j < locations.length; j++) {
-              //   // 新增左側店家清單
-              //   var newlist = document.createElement('li');
-              //   newlist.style.backgroundColor = "#F5F5F5"
+              for (var j = 0; j < locations.length; j++) {
+                // 新增左側店家清單
+                var newlist = document.createElement('li');
+                newlist.style.backgroundColor = "#F5F5F5"
 
-              //   var newappend = document.createElement('a');
-              //   newappend.setAttribute("class", "toggle");
-              //   newappend.setAttribute("href", "javascript:void(0);");
-              //   newappend.setAttribute("data-item", "item-11");
-              //   newappend.setAttribute("id", "newappendid");
-              //   var sitename = locations[j]["site"];
-              //   var newappendtext = document.createTextNode(sitename);
+                var newappend = document.createElement('a');
+                newappend.setAttribute("class", "toggle");
+                newappend.setAttribute("href", "javascript:void(0);");
+                newappend.setAttribute("data-item", "item-11");
+                newappend.setAttribute("id", "newappendid");
+                var sitename = locations[j]["site"];
+                var newappendtext = document.createTextNode(sitename);
 
-              //   var newparagraph = document.createElement("div");
-              //   newparagraph.setAttribute("class", "inner");
-              //   newparagraph.setAttribute("height", "180px");
-              //   newparagraph.setAttribute("weight", "120px");
+                var newparagraph = document.createElement("div");
+                newparagraph.setAttribute("class", "inner");
+                newparagraph.setAttribute("height", "180px");
+                newparagraph.setAttribute("weight", "120px");
 
-              //   var newbr1 = document.createElement("div");
-              //   newbr1.innerHTML = "State: " + locations[j]["region"]
-              //   var newbr2 = document.createElement("div");
-              //   newbr2.innerHTML = "City: " + locations[j]["area"]
-              //   var newbr3 = document.createElement("div");
-              //   newbr3.innerHTML = "Zip Code: " + locations[j]["times"]
-              //   var newbr4 = document.createElement("div");
-              //   newbr4.innerHTML = "latitude: " + locations[j]["latitude"]
-              //   var newbr5 = document.createElement("div");
-              //   newbr5.innerHTML = "longtitude: " + locations[j]["longtitude"]
+                var newbr1 = document.createElement("div");
+                newbr1.innerHTML = "State: " + locations[j]["region"]
+                var newbr2 = document.createElement("div");
+                newbr2.innerHTML = "City: " + locations[j]["area"]
+                var newbr3 = document.createElement("div");
+                newbr3.innerHTML = "Zip Code: " + locations[j]["times"]
+                var newbr4 = document.createElement("div");
+                newbr4.innerHTML = "latitude: " + locations[j]["latitude"]
+                var newbr5 = document.createElement("div");
+                newbr5.innerHTML = "longtitude: " + locations[j]["longtitude"]
 
-              //   newappend.appendChild(newappendtext)
-              //   var orglist = document.getElementById('ulist');
-              //   orglist.appendChild(newlist);
+                newappend.appendChild(newappendtext)
+                var orglist = document.getElementById('ulist');
+                orglist.appendChild(newlist);
 
-              //   newlist.appendChild(newappend);
-              //   newlist.appendChild(newparagraph);
-              //   newparagraph.appendChild(newbr1);
-              //   newparagraph.appendChild(newbr2);
-              //   newparagraph.appendChild(newbr3);
-              //   newparagraph.appendChild(newbr4);
-              //   newparagraph.appendChild(newbr5);
-              // }
+                newlist.appendChild(newappend);
+                newlist.appendChild(newparagraph);
+                newparagraph.appendChild(newbr1);
+                newparagraph.appendChild(newbr2);
+                newparagraph.appendChild(newbr3);
+                newparagraph.appendChild(newbr4);
+                newparagraph.appendChild(newbr5);
+              }
             </script>
 
 
-            <li>
+            <!-- <li>
               <a class="toggle" style="background:#FFC72C">End</a>
-            </li>
+            </li> -->
 
 
           </ul>
@@ -381,11 +381,10 @@
 
       <div class="col-md-9">
 
-        <p class="sidebar-title" style="font-weight: 900">Map</p>
+        <p style="font-size: large">Cluster Map</p>
         <div id="map" style="border: 1px solid #eee; height: 550px; width:900px;"></div>
-
-
-
+        <div class="mt-10"></div>
+        <div id="map2" style="border: 1px solid #eee; height: 550px; width:900px;"></div>
       </div>
       <!-- /main content -->
     </div>
@@ -426,26 +425,6 @@
             locations[i]["longtitude"]),
         });
 
-        // testing start
-        // var contentStringsuggestedmakers =
-        //   '<h4>' + locations[i]["site"] + '</h4>' +
-        //   '<div>' +
-        //   '<b>所屬地區:  </b>' +
-        //   locations[i]["region"] +
-        //   locations[i]["area"] +
-        //   '<div>' + '<button id="addsite" style="background-color: #ffd903;border-radius: 5px;">新增</button>';
-        // console.log(contentStringsuggestedmakers)
-
-        // const infowindow = new google.maps.InfoWindow({
-        //   content: contentStringsuggestedmakers,
-        //   position: {
-        //     lat: parseFloat(locations[i]["latitude"]),
-        //     lng: parseFloat(locations[i]["longtitude"])
-        //   },
-        //   maxWidth: 200,
-        // });
-        //Testin end
-
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
           return function () {
             InforObj[0] = infowindow
@@ -478,27 +457,35 @@
 
 
 
-
+<hr class="hr">
   <!-- Embeding tableau charts -->
   <!-- map by postal -->
-  <div class='tableauPlaceholder' id='viz1617335542690' style='position: relative'><noscript><a href='#'><img
-          alt='Berkley Clusters '
-          src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;W2&#47;W209_Project_ClusterCount&#47;Sheet2&#47;1_rss.png'
-          style='border: none' /></a></noscript><object class='tableauViz' style='display:none;'>
-      <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
-      <param name='embed_code_version' value='3' />
-      <param name='path'
-        value='views&#47;W209_Project_ClusterCount&#47;Sheet2?:language=en&amp;:embed=y&amp;:display_count=y' />
-      <param name='toolbar' value='yes' />
-      <param name='static_image'
-        value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;W2&#47;W209_Project_ClusterCount&#47;Sheet2&#47;1.png' />
-      <param name='animate_transition' value='yes' />
-      <param name='display_static_image' value='yes' />
-      <param name='display_spinner' value='yes' />
-      <param name='display_overlay' value='yes' />
-      <param name='display_count' value='yes' />
-      <param name='language' value='en' />
-    </object></div>
+  <div class="content mt-60 mb-40 container">
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="col-md-9">
+        <div class='tableauPlaceholder' id='viz1617335542690' style='position: relative'><noscript><a href='#'><img
+                alt='Berkley Clusters '
+                src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;W2&#47;W209_Project_ClusterCount&#47;Sheet2&#47;1_rss.png'
+                style='border: none' /></a></noscript><object class='tableauViz' style='display:none;'>
+            <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+            <param name='embed_code_version' value='3' />
+            <param name='path'
+              value='views&#47;W209_Project_ClusterCount&#47;Sheet2?:language=en&amp;:embed=y&amp;:display_count=y' />
+            <param name='toolbar' value='yes' />
+            <param name='static_image'
+              value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;W2&#47;W209_Project_ClusterCount&#47;Sheet2&#47;1.png' />
+            <param name='animate_transition' value='yes' />
+            <param name='display_static_image' value='yes' />
+            <param name='display_spinner' value='yes' />
+            <param name='display_overlay' value='yes' />
+            <param name='display_count' value='yes' />
+            <param name='language' value='en' />
+          </object>
+        </div>
+      </div>
+    </div>
+  </div>
   <script type='text/javascript'>
     var divElement = document.getElementById('viz1617335542690');
     var vizElement = divElement.getElementsByTagName('object')[0];
@@ -509,15 +496,42 @@
     vizElement.parentNode.insertBefore(scriptElement, vizElement);
   </script>
 
-<!-- Heatmap -->
-<div class='tableauPlaceholder' id='viz1617347287841' style='position: relative'><noscript><a href='#'><img alt='Travel Distance Over Time ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;W2&#47;W209_Project_ClusterCount&#47;Sheet3&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='W209_Project_ClusterCount&#47;Sheet3' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;W2&#47;W209_Project_ClusterCount&#47;Sheet3&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en' /></object></div>                
-<script type='text/javascript'>
-var divElement = document.getElementById('viz1617347287841');
-var vizElement = divElement.getElementsByTagName('object')[0];
-vizElement.style.width='100%';
-vizElement.style.height=(divElement.offsetWidth*0.75)+'px';
-var scriptElement = document.createElement('script');
-scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);</script>
+<hr class="hr">
+  <!-- Heatmap -->
+  <div class="content mt-60 mb-40 container">
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="col-md-9">
+        <div class='tableauPlaceholder' id='viz1617347287841' style='position: relative'><noscript><a href='#'><img
+                alt='Travel Distance Over Time '
+                src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;W2&#47;W209_Project_ClusterCount&#47;Sheet3&#47;1_rss.png'
+                style='border: none' /></a></noscript><object class='tableauViz' style='display:none;'>
+            <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+            <param name='embed_code_version' value='3' />
+            <param name='site_root' value='' />
+            <param name='name' value='W209_Project_ClusterCount&#47;Sheet3' />
+            <param name='tabs' value='no' />
+            <param name='toolbar' value='yes' />
+            <param name='static_image'
+              value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;W2&#47;W209_Project_ClusterCount&#47;Sheet3&#47;1.png' />
+            <param name='animate_transition' value='yes' />
+            <param name='display_static_image' value='yes' />
+            <param name='display_spinner' value='yes' />
+            <param name='display_overlay' value='yes' />
+            <param name='display_count' value='yes' />
+            <param name='language' value='en' />
+          </object>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type='text/javascript'>
+    var divElement = document.getElementById('viz1617347287841');
+    var vizElement = divElement.getElementsByTagName('object')[0];
+    vizElement.style.width = '100%';
+    vizElement.style.height = (divElement.offsetWidth * 0.75) + 'px';
+    var scriptElement = document.createElement('script');
+    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js'; vizElement.parentNode.insertBefore(scriptElement, vizElement);</script>
 
 
 
@@ -570,7 +584,8 @@ scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';     
                       <div class="modal-body">
                         <form id="subscribe-form" class="form-block" novalidate="novalidate">
                           <div class="form-group mt-20 subscribe-form">
-                            <small id="emailHelp" class="form-text text-muted">Subscribe now and recieve a 50% discount
+                            <small id="emailHelp" class="form-text text-muted">Subscribe now and recieve a 50%
+                              discount
                               on your next tour booking</small>
                             <label>Email address</label>
                             <input type="email" class="form-control" name="email" placeholder="Email">

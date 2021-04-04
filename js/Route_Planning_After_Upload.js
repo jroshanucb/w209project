@@ -1,7 +1,7 @@
 //Route planing after upload the store list
 function uploadFile() {
     var file = document.getElementById('file').files[0]; //Fetch the first file uploaded by users
-    console.log(file)
+    // console.log(file)
 
     // FromData is a standard object to package the file from front-end to back-end
     var formData = new FormData();
@@ -18,6 +18,7 @@ function uploadFile() {
             console.log(cluster_data)
 
             var map;
+            var map_route;
             var num_clusters = cluster_data.length;
             Num_store_of_cluster = cluster_data[num_clusters - 1]['datas'].length //48
             var start = { lat: Number(cluster_data[num_clusters - 1]['datas'][0]['Latitude']), lng: Number(cluster_data[0]['datas'][0]['Longitude']) };
@@ -31,22 +32,35 @@ function uploadFile() {
             //Initialization of maps
             function initialize() {
                 // option for route planning
-                var rendererOptions = {
-                    suppressMarkers: true
-                };
-
-                directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
+                // var rendererOptions = {
+                //     suppressMarkers: true
+                // };
+                directionsService = new google.maps.DirectionsService();
+                directionsDisplay = new google.maps.DirectionsRenderer();
+                // directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
                 // Start point at the first store in the first cluster
                 var startPoint = new google.maps.LatLng(cluster_data[0]['datas'][0]['Latitude'], cluster_data[0]['datas'][0]['Longitude']);
                 // console.log('start_point',startPoint);
                 var myOptions = {
-                    zoom: 5,
+                    zoom: 12,
                     mapTypeId: google.maps.MapTypeId.ROADMAP,
                     center: startPoint
                 }
                 map = new google.maps.Map(document.getElementById("map"), myOptions);
                 directionsDisplay.setMap(map);
+
+
+                // 初始化地圖
+                map_route = new google.maps.Map(document.getElementById('map2'), {
+                    zoom: 16,
+                    center: { lat: 25.034010, lng: 121.562428 }
+                });
+    
+                // 放置路線圖層
+                directionsDisplay.setMap(map_route);
+
             }
+
 
 
             function calcRoute() {
@@ -67,7 +81,7 @@ function uploadFile() {
                         // console.log('Type_of_Longitude',typeof(point['Longitude']))
 
                         // add in markers for each points
-                        const marker=new google.maps.Marker({
+                        const marker = new google.maps.Marker({
                             position: {
                                 lat: Number(point['Latitude']),
                                 lng: Number(point['Longitude'])
@@ -78,19 +92,23 @@ function uploadFile() {
                             icon: {
                                 url: url
                             }
-
-
                         });
+                        
 
                         // Add in info windows
-                        console.log(point)
+                        // console.log(point)
                         var contentString =
-                            '<h4>' + point["ADDRESS"] + '</h4>' +
+                            '<h4>' + 'Site ID: ' + point["NUMBER"] + '</h4>' +
                             '<div>' +
-                            '<b>所屬地區:  </b>' +
+                            '<b>Postcode:</b>' +
+                            point["POSTCODE"] +
+                            '<br>' +
+                            '<b>Latitude:</b>' +
                             point["Latitude"] +
+                            '<br>' +
+                            '<b>Longitude:</b>' +
                             point["Longitude"] +
-                            '<div>' + '<button id="addsite" style="background-color: #ffd903;border-radius: 5px;">Add Site</button>';
+                            '<div>' + '<br>' + '<button id="addsite" style="background-color: #ffd903;border-radius: 5px;">Add Site</button>';
 
 
                         const infowindow = new google.maps.InfoWindow({
@@ -117,11 +135,7 @@ function uploadFile() {
                             infowindow.open(marker.get('map'), marker);
                             InforObj[0] = infowindow;
                         });
-                        marker.addListener('mouseover', function () {
-                            closeOtherInfo();
-                            infoname.open(marker.get('map'), marker);
-                            InforObj[0] = infoname;
-                        });
+
 
                         var InforObj = []
                         function closeOtherInfo() {
@@ -134,11 +148,6 @@ function uploadFile() {
                                 InforObj.length = 0;
                             }
                         }
-                        // marker.addListener('mouseout', function () {
-                        //             closeOtherInfo();
-                        //             infoname.close();
-                        //             InforObj[0] = infoname;
-                        // });
 
                         //新增景點功能，問題待解決
                         infowindow.addListener('domready', function () {
@@ -173,15 +182,6 @@ function uploadFile() {
                         });
 
 
-
-
-
-
-
-
-
-
-
                         // Produce a waypoint list for route planning
                         waypts.push({
                             // location: new google.maps.LatLng(point['Latitude'], point['Longitude']),
@@ -191,6 +191,7 @@ function uploadFile() {
                             },
                             stopover: false
                         });
+
                     }
                 }
 
@@ -216,6 +217,26 @@ function uploadFile() {
 
 
                 console.log('waypts', waypts)
+
+                //Add markers to route map
+                var markers = [];
+                for (var m = 0; m < waypts.length; m++) {
+                    var url2 = 'http://maps.google.com/mapfiles/kml/paddle/'
+                    url2 = url2+ m + ".png";
+                    console.log('waypoint lat',waypts[m]['location']['lat'])
+                    markers[m] = new google.maps.Marker({
+                        position: {
+                          lat: waypts[m]['location']['lat'],
+                          lng: waypts[m]['location']['lng']
+                        },
+                        map: map_route,
+                        icon: {
+                            url: url2
+                        }
+                      });
+                  }
+
+
             }
 
             //function to add in cluster number and storename in the store list panel
@@ -230,7 +251,7 @@ function uploadFile() {
                 newappend.setAttribute("href", "javascript:void(0);");
                 newappend.setAttribute("data-item", "item-11");
                 newappend.setAttribute("id", "newappendid");
-                var sitename = 'Site ' + String(j + 1);
+                var sitename = 'Site ' + String(j + 1) + ' - ' + last_cluster[j]["NUMBER"];
                 var newappendtext = document.createTextNode(sitename);
 
                 var newparagraph = document.createElement("div");
@@ -263,8 +284,6 @@ function uploadFile() {
             }
 
             // function create_store_list() {
-
-
             //     for (let k = 0; k < num_clusters; k++) {
             //         document.getElementById('storelist')
             //             .insertAdjacentHTML('beforeEnd', `
@@ -285,6 +304,144 @@ function uploadFile() {
 
             //     }
             // }
+
+
+            // Memo
+            // var request = {
+            //     origin: start,
+            //     destination: end,
+            //     waypoints: waypts,
+            //     optimizeWaypoints: true,
+            //     travelMode: google.maps.DirectionsTravelMode.WALKING,
+            //     // Travel modes: DRIVING, BICYCLING, TRANSIT, WALKING 
+            //     // departure_time:1343641500
+            // };
+
+            //Section of selected cluster route planning
+            // var locations = [
+            //     {
+            //         "siteid": "8655",
+            //         "region": "California",
+            //         "area": "Berkeley",
+            //         "site": "Site A",
+            //         "address": "EUCLID AV 2",
+            //         "latitude": "37.8902332",
+            //         "longtitude": "-122.2718997",
+            //         "times": 2001,
+            //     },
+            //     {
+            //         "siteid": "8920",
+            //         "region": "California",
+            //         "area": "Berkeley",
+            //         "site": "Site B",
+            //         "address": "LOS ANGELES AVE",
+            //         "latitude": "37.8882492",
+            //         "longtitude": "-122.265956",
+            //         "times": 1132,
+            //     },
+            //     {
+            //         "siteid": "8446",
+            //         "region": "California",
+            //         "area": "Berkeley",
+            //         "site": "Site C",
+            //         "address": "ADDISON ST 24",
+            //         "latitude": "37.883912",
+            //         "longtitude": "-122.2627248",
+            //         "times": 1322,
+            //     },
+            //     {
+            //         "siteid": "9216",
+            //         "region": "California",
+            //         "area": "Berkeley",
+            //         "site": "Site D",
+            //         "address": "DELAWARE ST",
+            //         "latitude": "37.8744187",
+            //         "longtitude": "-122.2694859",
+            //         "times": 2030,
+            //     },
+            //     {
+            //         "siteid": "8547",
+            //         "region": "California",
+            //         "area": "Berkeley",
+            //         "site": "Site E",
+            //         "address": "ARCH ST",
+            //         "latitude": "37.8715856",
+            //         "longtitude": "-122.2671587",
+            //         "times": 2119,
+            //     },
+            //     {
+            //         "siteid": "8896",
+            //         "region": "California",
+            //         "area": "Berkeley",
+            //         "site": "Site F",
+            //         "address": "ETNA ST",
+            //         "latitude": "37.8633859",
+            //         "longtitude": "-122.2528616",
+            //         "times": 2614,
+            //     }
+            // ];
+
+            // console.log(waypts);
+            // var geocoder;
+            // var map;
+            // var directionsDisplay;
+            // var directionsService = new google.maps.DirectionsService();
+
+            // function initialize_route() {
+            //     directionsDisplay = new google.maps.DirectionsRenderer();
+
+            //     var map = new google.maps.Map(document.getElementById('map2'), {
+            //         zoom: 10,
+            //         center: new google.maps.LatLng(-33.92, 151.25),
+            //         mapTypeId: google.maps.MapTypeId.ROADMAP
+            //     });
+            //     directionsDisplay.setMap(map);
+            //     var infowindow = new google.maps.InfoWindow();
+
+            //     var marker, i;
+            //     var request = {
+            //         travelMode: google.maps.TravelMode.DRIVING
+            //     };
+            //     for (i = 0; i < waypts.length; i++) {
+            //         // Original Marker
+            //         marker = new google.maps.Marker({
+            //             position: new google.maps.LatLng(waypts[i]["latitude"],
+            //             waypts[i]["longtitude"]),
+            //         });
+
+            //         google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            //             return function () {
+            //                 InforObj[0] = infowindow
+            //                 // infowindow.setContent(waypts[i]["site"]);
+            //                 infowindow.open(map, marker);
+            //             }
+            //         })(marker, i));
+
+            //         if (i == 0) request.origin = marker.getPosition();
+            //         else if (i == waypts.length - 1) request.destination = marker.getPosition();
+            //         else {
+            //             if (!request.waypoints) request.waypoints = [];
+            //             request.waypoints.push({
+            //                 location: marker.getPosition(),
+            //                 stopover: true
+            //             });
+            //         }
+
+            //     }
+
+            //     // add direction
+            //     directionsService.route(request, function (result, status) {
+            //         if (status == google.maps.DirectionsStatus.OK) {
+            //             directionsDisplay.setDirections(result);
+            //         }
+            //     });
+            // }
+            // google.maps.event.addDomListener(window, "load", initialize_route);
+
+
+
+
+
 
             //execute defined functions
             initialize();
