@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <!-- <link rel="icon" href="img/favicon.ico"> -->
+  <link rel="icon" href="img/RoutePlanningIcon.png">
 
   <title>Visualization</title>
 
@@ -86,37 +86,25 @@
   </div>
   <!-- / #pageloader -->
 
+  <!-- contact bar -->
   <nav id="contact-menu" class="navigation navigation-hidden navigation-portrait">
     <div class="nav-menus-wrapper">
       <div class="header-info-item clearfix">
         <p class="header-info-title">Contact Us</p>
         <ul>
-          <li><span class="ti-map-alt"></span>MIDS W209 Team 3</li>
-          <li><span class="ti-headphone-alt"></span> <a href="tel:1800-2345-5677">1800-2345-5677</a></li>
-          <li><span class="ti-mobile"></span> <a href="tel:1800-2345-5678">1800-2345-5678</a></li>
-          <li><span class="ti-email"></span> <a href="mailto:info@voyagetime.com">info@voyagetime.com</a></li>
-        </ul>
-      </div>
-      <div class="header-info-item clearfix">
-        <p class="header-info-title">Work Time</p>
-        <ul>
-          <li><span class="ti-alarm-clock"></span> Working Days 9AM - 9PM</li>
-          <li><span class="ti-alarm-clock"></span> Saturday 10AM - 8PM</li>
-          <li><span class="ti-alarm-clock"></span> Sunday Closed</li>
-        </ul>
-      </div>
-      <div class="header-info-item clearfix">
-        <p class="header-info-title">Follow Us</p>
-        <ul class="header-social">
-          <li><a href="#"><span class="ti-facebook"></span></a></li>
-          <li><a href="#"><span class="ti-instagram"></span></a></li>
-          <li><a href="#"><span class="ti-twitter"></span></a></li>
-          <li><a href="#"><span class="ti-youtube"></span></a></li>
-          <li><a href="#"><span class="ti-pinterest"></span></a></li>
+          <li><span class="ti-map-alt"></span>MIDS W209 Team 2</li>
+          <li><a>Team member - Sam Shih:</a></li>
+          <li><a href="https://www.linkedin.com/in/sam-shih-812616117/"><span class="ti-linkedin"></span>sam-shih-812616117</a></li>
+          <li><a>Team member - Javed Roshan:</a></li>
+          <li><a href="https://www.linkedin.com/in/jroshan/"><span class="ti-linkedin"></span>jroshan</a></li>
+          <li><a>Team member - Joanna Wang:</a></li>
+          <li><a href="https://www.linkedin.com/in/jiacheng-joanna-w-96973b90/"><span class="ti-linkedin"></span>jiacheng-joanna-w-96973b90</a></li>
+          <li><a>Lecturer - Fereshteh Amini</a></li>
         </ul>
       </div>
     </div>
   </nav>
+  <!-- /contact bar -->
 
   <header>
 
@@ -224,6 +212,8 @@
   <!-- / page-head -->
 
   <!-- tableau line chart -->
+  <div style="font-size: large;padding-left: 1%;">User Travel Analysis</div>
+  <div class="col-md-9" id="ChartDescription"></div>
   <div class='tableauPlaceholder' id='viz1616419906498' style='position: relative'><noscript><a href='#'>
         <img alt=' '
           src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;20&#47;209-Project-UserTravelAnalysis&#47;UserTravelAnalysis&#47;1_rss.png'
@@ -256,7 +246,8 @@
 
   <hr>
   <!-- crossfilter -->
-  <div style="font-size: large">Traveling Distance Detail</div>
+  <div style="font-size: large;padding-left: 1%;">Traveling Distance Detail</div>
+  <div class="col-md-9" id="ChartDescription"></div>
   <iframe width="100%" height="584" frameborder="0"
     src="https://observablehq.com/embed/@samshih/week-13-assignment-crossfilter?cells=crossfilterchart"></iframe>
 
@@ -265,11 +256,13 @@
 
   <hr>
   <!-- networkmap -->
-  <div style="font-size: large">Street With High Frequency</div>
+  <div style="font-size: large;padding-left: 1%;">Street With High Frequency</div>
+  <div class="col-md-9" id="ChartDescription"></div>
   <iframe width="100%" height="801" frameborder="0"
     src="https://observablehq.com/embed/@samshih/network-visualization-of-routes?cells=viewof+selectedRoutes%2Cnetworkchart"></iframe>
 
   <div class="mt-10"></div>
+
 
 
 

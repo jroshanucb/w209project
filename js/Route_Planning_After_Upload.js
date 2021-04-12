@@ -36,13 +36,13 @@ function uploadFile() {
                 //     suppressMarkers: true
                 // };
                 directionsService = new google.maps.DirectionsService();
-                directionsDisplay = new google.maps.DirectionsRenderer();
+                directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true});
                 // directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
                 // Start point at the first store in the first cluster
                 var startPoint = new google.maps.LatLng(cluster_data[0]['datas'][0]['Latitude'], cluster_data[0]['datas'][0]['Longitude']);
                 // console.log('start_point',startPoint);
                 var myOptions = {
-                    zoom: 12,
+                    zoom: 13,
                     mapTypeId: google.maps.MapTypeId.ROADMAP,
                     center: startPoint
                 }
@@ -87,7 +87,7 @@ function uploadFile() {
                                 lng: Number(point['Longitude'])
                             },
                             map,
-                            title: "Site",
+                            title: point['NUMBER'],
                             // icon:`http://maps.google.com/mapfiles/kml/pal2/icon${j}.png`;
                             icon: {
                                 url: url
@@ -187,10 +187,12 @@ function uploadFile() {
                             // location: new google.maps.LatLng(point['Latitude'], point['Longitude']),
                             location: {
                                 lat: Number(point['Latitude']),
-                                lng: Number(point['Longitude'])
+                                lng: Number(point['Longitude']),
+                                NUMBER: point['NUMBER']
                             },
                             stopover: false
                         });
+                        
 
                     }
                 }
@@ -222,14 +224,17 @@ function uploadFile() {
                 var markers = [];
                 for (var m = 0; m < waypts.length; m++) {
                     var url2 = 'http://maps.google.com/mapfiles/kml/paddle/'
-                    url2 = url2+ m + ".png";
+                    flag_num = m+1
+                    console.log('flag_num',flag_num)
+                    url2 = url2+ flag_num + ".png";
                     console.log('waypoint lat',waypts[m]['location']['lat'])
-                    markers[m] = new google.maps.Marker({
+                    markers[flag_num] = new google.maps.Marker({
                         position: {
                           lat: waypts[m]['location']['lat'],
                           lng: waypts[m]['location']['lng']
                         },
                         map: map_route,
+                        title: waypts[m]['location']['NUMBER'],
                         icon: {
                             url: url2
                         }
@@ -304,142 +309,6 @@ function uploadFile() {
 
             //     }
             // }
-
-
-            // Memo
-            // var request = {
-            //     origin: start,
-            //     destination: end,
-            //     waypoints: waypts,
-            //     optimizeWaypoints: true,
-            //     travelMode: google.maps.DirectionsTravelMode.WALKING,
-            //     // Travel modes: DRIVING, BICYCLING, TRANSIT, WALKING 
-            //     // departure_time:1343641500
-            // };
-
-            //Section of selected cluster route planning
-            // var locations = [
-            //     {
-            //         "siteid": "8655",
-            //         "region": "California",
-            //         "area": "Berkeley",
-            //         "site": "Site A",
-            //         "address": "EUCLID AV 2",
-            //         "latitude": "37.8902332",
-            //         "longtitude": "-122.2718997",
-            //         "times": 2001,
-            //     },
-            //     {
-            //         "siteid": "8920",
-            //         "region": "California",
-            //         "area": "Berkeley",
-            //         "site": "Site B",
-            //         "address": "LOS ANGELES AVE",
-            //         "latitude": "37.8882492",
-            //         "longtitude": "-122.265956",
-            //         "times": 1132,
-            //     },
-            //     {
-            //         "siteid": "8446",
-            //         "region": "California",
-            //         "area": "Berkeley",
-            //         "site": "Site C",
-            //         "address": "ADDISON ST 24",
-            //         "latitude": "37.883912",
-            //         "longtitude": "-122.2627248",
-            //         "times": 1322,
-            //     },
-            //     {
-            //         "siteid": "9216",
-            //         "region": "California",
-            //         "area": "Berkeley",
-            //         "site": "Site D",
-            //         "address": "DELAWARE ST",
-            //         "latitude": "37.8744187",
-            //         "longtitude": "-122.2694859",
-            //         "times": 2030,
-            //     },
-            //     {
-            //         "siteid": "8547",
-            //         "region": "California",
-            //         "area": "Berkeley",
-            //         "site": "Site E",
-            //         "address": "ARCH ST",
-            //         "latitude": "37.8715856",
-            //         "longtitude": "-122.2671587",
-            //         "times": 2119,
-            //     },
-            //     {
-            //         "siteid": "8896",
-            //         "region": "California",
-            //         "area": "Berkeley",
-            //         "site": "Site F",
-            //         "address": "ETNA ST",
-            //         "latitude": "37.8633859",
-            //         "longtitude": "-122.2528616",
-            //         "times": 2614,
-            //     }
-            // ];
-
-            // console.log(waypts);
-            // var geocoder;
-            // var map;
-            // var directionsDisplay;
-            // var directionsService = new google.maps.DirectionsService();
-
-            // function initialize_route() {
-            //     directionsDisplay = new google.maps.DirectionsRenderer();
-
-            //     var map = new google.maps.Map(document.getElementById('map2'), {
-            //         zoom: 10,
-            //         center: new google.maps.LatLng(-33.92, 151.25),
-            //         mapTypeId: google.maps.MapTypeId.ROADMAP
-            //     });
-            //     directionsDisplay.setMap(map);
-            //     var infowindow = new google.maps.InfoWindow();
-
-            //     var marker, i;
-            //     var request = {
-            //         travelMode: google.maps.TravelMode.DRIVING
-            //     };
-            //     for (i = 0; i < waypts.length; i++) {
-            //         // Original Marker
-            //         marker = new google.maps.Marker({
-            //             position: new google.maps.LatLng(waypts[i]["latitude"],
-            //             waypts[i]["longtitude"]),
-            //         });
-
-            //         google.maps.event.addListener(marker, 'click', (function (marker, i) {
-            //             return function () {
-            //                 InforObj[0] = infowindow
-            //                 // infowindow.setContent(waypts[i]["site"]);
-            //                 infowindow.open(map, marker);
-            //             }
-            //         })(marker, i));
-
-            //         if (i == 0) request.origin = marker.getPosition();
-            //         else if (i == waypts.length - 1) request.destination = marker.getPosition();
-            //         else {
-            //             if (!request.waypoints) request.waypoints = [];
-            //             request.waypoints.push({
-            //                 location: marker.getPosition(),
-            //                 stopover: true
-            //             });
-            //         }
-
-            //     }
-
-            //     // add direction
-            //     directionsService.route(request, function (result, status) {
-            //         if (status == google.maps.DirectionsStatus.OK) {
-            //             directionsDisplay.setDirections(result);
-            //         }
-            //     });
-            // }
-            // google.maps.event.addDomListener(window, "load", initialize_route);
-
-
-
 
 
 

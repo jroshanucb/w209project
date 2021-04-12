@@ -6,9 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <!-- <link rel="icon" href="img/favicon.ico"> -->
+  <link rel="icon" href="img/RoutePlanningIcon.png">
 
-  <title>routeplanning</title>
+  <title>Route Scheduler</title>
 
   <!-- Bootstrap core CSS -->
   <link href="css/vendor/bootstrap.min.css" rel="stylesheet">
@@ -24,6 +24,15 @@
   <script src="js/vendor/fontawesome-all.min.js"></script>
 
   <link href="css/scss/main.css" rel="stylesheet">
+  
+  <!-- Count down package -->
+  <!-- <script src="js/suggester/vendor/modernizr-3.5.0.min.js"></script>
+  <script src="js/suggester/vendor/jquery-3.2.1.min.js"></script>
+  <script src="js/suggester/popper.min.js"></script>
+  <script src="js/suggester/bootstrap.min.js"></script>
+  <script src="js/suggester/plugins.js"></script>
+  <script src="js/suggester/active.js"></script>
+  <script src="js/suggester/scripts.js"></script> -->
 
 
 
@@ -86,37 +95,26 @@
   </div>
   <!-- / #pageloader -->
 
+  <!-- contact bar -->
   <nav id="contact-menu" class="navigation navigation-hidden navigation-portrait">
     <div class="nav-menus-wrapper">
       <div class="header-info-item clearfix">
         <p class="header-info-title">Contact Us</p>
         <ul>
-          <li><span class="ti-map-alt"></span>MIDS W209 Team 3</li>
-          <li><span class="ti-headphone-alt"></span> <a href="tel:1800-2345-5677">1800-2345-5677</a></li>
-          <li><span class="ti-mobile"></span> <a href="tel:1800-2345-5678">1800-2345-5678</a></li>
-          <li><span class="ti-email"></span> <a href="mailto:info@voyagetime.com">info@voyagetime.com</a></li>
-        </ul>
-      </div>
-      <div class="header-info-item clearfix">
-        <p class="header-info-title">Work Time</p>
-        <ul>
-          <li><span class="ti-alarm-clock"></span> Working Days 9AM - 9PM</li>
-          <li><span class="ti-alarm-clock"></span> Saturday 10AM - 8PM</li>
-          <li><span class="ti-alarm-clock"></span> Sunday Closed</li>
-        </ul>
-      </div>
-      <div class="header-info-item clearfix">
-        <p class="header-info-title">Follow Us</p>
-        <ul class="header-social">
-          <li><a href="#"><span class="ti-facebook"></span></a></li>
-          <li><a href="#"><span class="ti-instagram"></span></a></li>
-          <li><a href="#"><span class="ti-twitter"></span></a></li>
-          <li><a href="#"><span class="ti-youtube"></span></a></li>
-          <li><a href="#"><span class="ti-pinterest"></span></a></li>
+          <li><span class="ti-map-alt"></span>MIDS W209 Team 2</li>
+          <li><a>Team member - Sam Shih:</a></li>
+          <li><a href="https://www.linkedin.com/in/sam-shih-812616117/"><span class="ti-linkedin"></span>sam-shih-812616117</a></li>
+          <li><a>Team member - Javed Roshan:</a></li>
+          <li><a href="https://www.linkedin.com/in/jroshan/"><span class="ti-linkedin"></span>jroshan</a></li>
+          <li><a>Team member - Joanna Wang:</a></li>
+          <li><a href="https://www.linkedin.com/in/jiacheng-joanna-w-96973b90/"><span class="ti-linkedin"></span>jiacheng-joanna-w-96973b90</a></li>
+          <li><a>Lecturer - Fereshteh Amini</a></li>
         </ul>
       </div>
     </div>
   </nav>
+  <!-- /contact bar -->
+
 
   <header>
 
@@ -229,12 +227,13 @@
   <div class="text-center">
     <div class="row justify-content-center" style="background-color:#FFC72C;padding: 10px;;">
       <div class="col-md-12">
-        <h5 class="mb-10">Upload Addresses For AI Scheduling</h2>
-          <!-- <a class="btn btn-3" href="itinerary.html">Upload</a> -->
-          <div class="col-md-12">
-            <input name="progressbarTW_img" type="file" id="file" style="display:none" onchange="uploadFile()" />
-            <button onclick="file.click()" type="button" class="btn btn-primary" style="width:95%">Upload</button>
-          </div>
+        <h4 class="mb-10">Upload Addresses For AI Scheduling</h4>
+        <!-- <a class="btn btn-3" href="itinerary.html">Upload</a> -->
+        <div class="col-md-12">
+          <input name="progressbarTW_img" type="file" id="file" style="display:none" onchange="uploadFile()" />
+          <button onclick="file.click()" type="button" class="btn btn-primary"
+            style="width:20%;background-color:black;">Upload</button>
+        </div>
 
 
       </div>
@@ -248,11 +247,24 @@
   <!-- content -->
   <div class="content mt-60 mb-40 container">
     <div class="row">
+      <div class="col-md-3">
+        <h3>Cluster Map</h3>
+        The map provide an overview on the location of each site, colored by its allocated clusters. Users are able to
+        view site info or add a site by clicking markers.
+      </div>
+      <div class="col-md-9">
 
+        <div id="map" style="border: 1px solid #eee; height: 550px; width:900px;margin-bottom: 5px;"></div>
+      </div>
+      <!-- /main content -->
+    </div>
+
+    <div class="mt-30"></div>
+    <div class="row">
       <!-- sider -->
       <div class="col-md-3">
         <div class="sidebar">
-          <div style="font-size: large">My Schedule</div>
+          <h3 style="margin-bottom: 5px;padding-left: 0px;">My Schedule</h3>
           <ul id="ulist" class="accordion-element accordion-2">
             <li>
               <a class="toggle" style="background:#FFC72C">Start</a>
@@ -322,79 +334,71 @@
                 }
               ];
 
-              for (var j = 0; j < locations.length; j++) {
-                // 新增左側店家清單
-                var newlist = document.createElement('li');
-                newlist.style.backgroundColor = "#F5F5F5"
+                    // for (var j = 0; j < locations.length; j++) {
+                    //   // 新增左側店家清單
+                    //   var newlist = document.createElement('li');
+                    //   newlist.style.backgroundColor = "#F5F5F5"
 
-                var newappend = document.createElement('a');
-                newappend.setAttribute("class", "toggle");
-                newappend.setAttribute("href", "javascript:void(0);");
-                newappend.setAttribute("data-item", "item-11");
-                newappend.setAttribute("id", "newappendid");
-                var sitename = locations[j]["site"];
-                var newappendtext = document.createTextNode(sitename);
+                    //   var newappend = document.createElement('a');
+                    //   newappend.setAttribute("class", "toggle");
+                    //   newappend.setAttribute("href", "javascript:void(0);");
+                    //   newappend.setAttribute("data-item", "item-11");
+                    //   newappend.setAttribute("id", "newappendid");
+                    //   var sitename = locations[j]["site"];
+                    //   var newappendtext = document.createTextNode(sitename);
 
-                var newparagraph = document.createElement("div");
-                newparagraph.setAttribute("class", "inner");
-                newparagraph.setAttribute("height", "180px");
-                newparagraph.setAttribute("weight", "120px");
+                    //   var newparagraph = document.createElement("div");
+                    //   newparagraph.setAttribute("class", "inner");
+                    //   newparagraph.setAttribute("height", "180px");
+                    //   newparagraph.setAttribute("weight", "120px");
 
-                var newbr1 = document.createElement("div");
-                newbr1.innerHTML = "State: " + locations[j]["region"]
-                var newbr2 = document.createElement("div");
-                newbr2.innerHTML = "City: " + locations[j]["area"]
-                var newbr3 = document.createElement("div");
-                newbr3.innerHTML = "Zip Code: " + locations[j]["times"]
-                var newbr4 = document.createElement("div");
-                newbr4.innerHTML = "latitude: " + locations[j]["latitude"]
-                var newbr5 = document.createElement("div");
-                newbr5.innerHTML = "longtitude: " + locations[j]["longtitude"]
+                    //   var newbr1 = document.createElement("div");
+                    //   newbr1.innerHTML = "State: " + locations[j]["region"]
+                    //   var newbr2 = document.createElement("div");
+                    //   newbr2.innerHTML = "City: " + locations[j]["area"]
+                    //   var newbr3 = document.createElement("div");
+                    //   newbr3.innerHTML = "Zip Code: " + locations[j]["times"]
+                    //   var newbr4 = document.createElement("div");
+                    //   newbr4.innerHTML = "latitude: " + locations[j]["latitude"]
+                    //   var newbr5 = document.createElement("div");
+                    //   newbr5.innerHTML = "longtitude: " + locations[j]["longtitude"]
 
-                newappend.appendChild(newappendtext)
-                var orglist = document.getElementById('ulist');
-                orglist.appendChild(newlist);
+                    //   newappend.appendChild(newappendtext)
+                    //   var orglist = document.getElementById('ulist');
+                    //   orglist.appendChild(newlist);
 
-                newlist.appendChild(newappend);
-                newlist.appendChild(newparagraph);
-                newparagraph.appendChild(newbr1);
-                newparagraph.appendChild(newbr2);
-                newparagraph.appendChild(newbr3);
-                newparagraph.appendChild(newbr4);
-                newparagraph.appendChild(newbr5);
-              }
+                    //   newlist.appendChild(newappend);
+                    //   newlist.appendChild(newparagraph);
+                    //   newparagraph.appendChild(newbr1);
+                    //   newparagraph.appendChild(newbr2);
+                    //   newparagraph.appendChild(newbr3);
+                    //   newparagraph.appendChild(newbr4);
+                    //   newparagraph.appendChild(newbr5);
+                    // }
             </script>
 
 
             <!-- <li>
-              <a class="toggle" style="background:#FFC72C">End</a>
-            </li> -->
+                    <a class="toggle" style="background:#FFC72C">End</a>
+                  </li> -->
 
 
           </ul>
         </div>
       </div>
       <!-- /sider -->
-
-
-
-
       <div class="col-md-9">
-
-        <p style="font-size: large">Cluster Map</p>
-        <div id="map" style="border: 1px solid #eee; height: 550px; width:900px;"></div>
-        <div class="mt-10"></div>
+        <h3 style="margin-bottom: 5px;">Route Map</h3>
         <div id="map2" style="border: 1px solid #eee; height: 550px; width:900px;"></div>
       </div>
-      <!-- /main content -->
     </div>
   </div>
 
 
-  <div class="mt-20"></div>
+  <div class="mt-10"></div>
 
 
-  <!-- 地圖部分 -->
+  <!-- Default Map Creation -->
   <script>
 
     var geocoder;
@@ -457,24 +461,38 @@
 
 
 
-<hr class="hr">
+  <!-- <hr class="hr"> -->
   <!-- Embeding tableau charts -->
+  <div class="text-center">
+    <div class="row justify-content-center" style="background-color:#FFC72C;padding: 15px;;">
+      <div class="col-md-12">
+        <h2 class="mb-10" style="margin-top:7px">Analyzer</h2>
+      </div>
+    </div>
+    <!-- <a class="btn btn-3" href="itinerary.html">Upload</a> -->
+  </div>
   <!-- map by postal -->
   <div class="content mt-60 mb-40 container">
     <div class="row">
-      <div class="col-md-3"></div>
+      <div class="col-md-3" id="ChartDescription"></div>
       <div class="col-md-9">
-        <div class='tableauPlaceholder' id='viz1617335542690' style='position: relative'><noscript><a href='#'><img
-                alt='Berkley Clusters '
-                src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;W2&#47;W209_Project_ClusterCount&#47;Sheet2&#47;1_rss.png'
-                style='border: none' /></a></noscript><object class='tableauViz' style='display:none;'>
+        <div class='tableauPlaceholder' id='viz1618108786606' style='position: relative'>
+          <noscript>
+            <a href='#'>
+              <img alt='Berkley Clusters '
+                src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;W2&#47;W209_Project_ClusterCount&#47;Sheet4&#47;1_rss.png'
+                style='border: none' />
+            </a>
+          </noscript>
+          <object class='tableauViz' style='display:none;'>
             <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
             <param name='embed_code_version' value='3' />
-            <param name='path'
-              value='views&#47;W209_Project_ClusterCount&#47;Sheet2?:language=en&amp;:embed=y&amp;:display_count=y' />
+            <param name='site_root' value='' />
+            <param name='name' value='W209_Project_ClusterCount&#47;Sheet4' />
+            <param name='tabs' value='no' />
             <param name='toolbar' value='yes' />
             <param name='static_image'
-              value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;W2&#47;W209_Project_ClusterCount&#47;Sheet2&#47;1.png' />
+              value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;W2&#47;W209_Project_ClusterCount&#47;Sheet4&#47;1.png' />
             <param name='animate_transition' value='yes' />
             <param name='display_static_image' value='yes' />
             <param name='display_spinner' value='yes' />
@@ -483,11 +501,12 @@
             <param name='language' value='en' />
           </object>
         </div>
+
       </div>
     </div>
   </div>
   <script type='text/javascript'>
-    var divElement = document.getElementById('viz1617335542690');
+    var divElement = document.getElementById('viz1618108786606');
     var vizElement = divElement.getElementsByTagName('object')[0];
     vizElement.style.width = '100%';
     vizElement.style.height = (divElement.offsetWidth * 0.75) + 'px';
@@ -496,12 +515,12 @@
     vizElement.parentNode.insertBefore(scriptElement, vizElement);
   </script>
 
-<hr class="hr">
+  <hr class="hr">
   <!-- Heatmap -->
   <div class="content mt-60 mb-40 container">
     <div class="row">
       <div class="col-md-3"></div>
-      <div class="col-md-9">
+      <div class="col-md-9" id="ChartDescription">
         <div class='tableauPlaceholder' id='viz1617347287841' style='position: relative'><noscript><a href='#'><img
                 alt='Travel Distance Over Time '
                 src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;W2&#47;W209_Project_ClusterCount&#47;Sheet3&#47;1_rss.png'
